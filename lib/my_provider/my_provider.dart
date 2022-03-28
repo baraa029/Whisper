@@ -2,10 +2,13 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:facebook_app/Auth/auth_helper.dart';
 import 'package:facebook_app/Auth/fire_store.dart';
 import 'package:facebook_app/modules/add_photo.dart';
+import 'package:facebook_app/modules/chat.dart';
 import 'package:facebook_app/modules/comments.dart';
+import 'package:facebook_app/modules/message.dart';
 import 'package:facebook_app/modules/new_user.dart';
 import 'package:facebook_app/modules/router.dart';
 import 'package:facebook_app/modules/user_story.dart';
@@ -45,19 +48,6 @@ class MyProvider extends ChangeNotifier {
   TextEditingController bioController = TextEditingController();
   TextEditingController caption = TextEditingController();
   TextEditingController city = TextEditingController();
-  z(){
-    List<String> userStory = this.storyList
-        .map((e) {
-      String users = e.id;
-      return users;
-    })
-        .toList();
-
-    this.userStory = userStory;
-    notifyListeners();
-
-  }
-
 
 
   //////////////Auth and firebase /////////////
@@ -106,6 +96,18 @@ class MyProvider extends ChangeNotifier {
 
   getUserFromFirebase(String userId) async {
     this.loggedUser = await FireStore.fireStore.getUserFromFs(userId);
+    notifyListeners();
+  }
+  getUsers() async {
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> queries =
+    await FireStore.fireStore.getUsersFromFirestore();
+    List<NewUser> userList =
+    queries.map((e) => NewUser.fromMap(e.data())).toList();
+    String myId = FirebaseAuth.instance.currentUser.uid;
+
+    userList.where((element) => element.id == myId).first;
+    userList.removeWhere((element) => element.id == myId);
+    this.users = userList;
     notifyListeners();
   }
 
@@ -343,5 +345,43 @@ class MyProvider extends ChangeNotifier {
     this.screens[value];
     notifyListeners();
   }
+////////////////////////////////////////// chat
+
+  List<Chat> allMyChats;
+  List<NewUser> users;
+
+  getChats() async {
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> list =
+    await FireStore.fireStore.getChats();
+    List<Chat> chats = list.map((e) {
+      String chatId = e.id;
+      Map<String, dynamic> map = e.data();
+      map['chatId'] = chatId;
+      return Chat.fromJson(map);
+    }).toList();
+    this.allMyChats = chats;
+    notifyListeners();
+  }
+
+  sendMessage(Message message, [NewUser otherUser]) async {
+    String chatId = message.chatId;
+    bool x =
+    await FireStore.fireStore.checkCollectionExists(chatId);
+    if (otherUser == null) {
+      FireStore.fireStore.sendMessage(message);
+    } else {
+      if (!x) {
+        await createChat(chatId, otherUser);
+        FireStore.fireStore.sendMessage(message);
+      } else {
+        FireStore.fireStore.sendMessage(message);
+      }
+    }
+  }
+
+  createChat(String chatId, NewUser otherUser) async {
+    FireStore.fireStore.createChat(chatId, this.loggedUser, otherUser);
+  }
+
 
 }

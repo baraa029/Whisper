@@ -1,7 +1,5 @@
 import 'package:facebook_app/modules/router.dart';
 import 'package:facebook_app/my_provider/my_provider.dart';
-import 'package:facebook_app/pages/main_screen.dart';
-import 'package:facebook_app/pages/user_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,7 +48,7 @@ class PageAddPhoto extends StatelessWidget {
                           User user = FirebaseAuth.instance.currentUser;
                           String userId = user.uid;
                           provider.AddPhotoToProfile(userId);
-                          RouterClass.routerClass.pushToSpecificScreenUsingWidget(MainScreen());
+                          RouterClass.routerClass.popFunction();
                         },
                         child: Text(
                           'Done',

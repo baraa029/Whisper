@@ -197,32 +197,37 @@ class Register extends StatelessWidget {
                       width: 900.w,
                       child: ElevatedButton(
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                Colors.deepOrange),
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.deepOrange),
                           ),
                           onPressed: () {
                             NewUser newUser = NewUser(
                                 email: emailController.text,
                                 password: passwordController.text,
                                 userName: userNameController.text,
-                                mobile: mobileNumberController.text
-                            ) ;
+                                mobile: mobileNumberController.text);
                             Provider.of<MyProvider>(context, listen: false)
                                 .createUser(newUser);
-                            RouterClass.routerClass.pushToSpecificScreenUsingWidget(Login());
+                            RouterClass.routerClass
+                                .pushWithReplacementToSpecificScreenUsingWidget(
+                                    Login());
 
                             RegisterVal();
                           },
                           child: Text('Sing Up')),
                     ),
-                    TextButton(onPressed: (){
-                      RouterClass.routerClass.pushToSpecificScreenUsingWidget(Login());
-                    },
-                      child: Text('I have already an account',
+                    TextButton(
+                      onPressed: () {
+                        RouterClass.routerClass
+                            .pushToSpecificScreenUsingWidget(Login());
+                      },
+                      child: Text(
+                        'I have already an account',
                         style: TextStyle(
                           color: Colors.white,
-                        ),),),
-
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

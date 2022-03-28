@@ -1,7 +1,6 @@
 import 'package:facebook_app/modules/router.dart';
 import 'package:facebook_app/modules/user_story.dart';
 import 'package:facebook_app/my_provider/my_provider.dart';
-import 'package:facebook_app/pages/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
@@ -26,7 +25,7 @@ class PageAddStory extends StatelessWidget {
                     TextButton(
                         onPressed: () {
                           RouterClass.routerClass
-                              .pushToSpecificScreenUsingWidget(MainScreen());
+                              .popFunction();
                         },
                         child: Text(
                           'Cancel',
@@ -54,7 +53,7 @@ class PageAddStory extends StatelessWidget {
                            print(provider.userStory);
 
                           RouterClass.routerClass
-                              .pushToSpecificScreenUsingWidget(MainScreen());
+                              .popFunction();
                         },
                         child: Text(
                           'Done',

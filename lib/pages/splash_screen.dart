@@ -12,10 +12,10 @@ import 'package:provider/provider.dart';
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: 10)).then((v) {
-      User user = FirebaseAuth.instance.currentUser;
+    User user = FirebaseAuth.instance.currentUser;
+    Future.delayed(Duration(seconds: 20)).then((v) {
       if (user == null) {
-        RouterClass.routerClass.pushToSpecificScreenUsingWidget(Register());
+        RouterClass.routerClass.pushWithReplacementToSpecificScreenUsingWidget(Register());
       } else {
         String userId = user.uid;
         Provider.of<MyProvider>(context, listen: false)
@@ -26,8 +26,11 @@ class SplashScreen extends StatelessWidget {
         Provider.of<MyProvider>(context, listen: false).GetFavPost(userId);
         Provider.of<MyProvider>(context, listen: false).GetSavePost(userId);
         Provider.of<MyProvider>(context, listen: false).GetStory();
+        Provider.of<MyProvider>(context, listen: false).getUsers();
+        Provider.of<MyProvider>(context, listen: false).getChats();
 
-        RouterClass.routerClass.pushToSpecificScreenUsingWidget(MainScreen());
+
+        RouterClass.routerClass.pushWithReplacementToSpecificScreenUsingWidget(MainScreen());
       }
     });
     return Scaffold(
@@ -36,8 +39,10 @@ class SplashScreen extends StatelessWidget {
           Stack(
             children: [
               Container(
-                child: Image.asset('assets/img/bg.jpg', fit: BoxFit.fill,
-                height: double.infinity,
+                child: Image.asset(
+                  'assets/img/bg.jpg',
+                  fit: BoxFit.fill,
+                  height: double.infinity,
                 ),
               ),
             ],
@@ -57,17 +62,14 @@ class SplashScreen extends StatelessWidget {
                     textStyle: TextStyle(
                       shadows: <Shadow>[
                         Shadow(
-
                           blurRadius: 20.0,
                           color: Color.fromARGB(255, 0, 0, 0),
                         ),
                         Shadow(
-
                           blurRadius: 20.0,
                           color: Color.fromARGB(255, 0, 0, 0),
                         ),
                       ],
-
                       color: Colors.deepOrange,
                       fontSize: 150.sp,
                     ),

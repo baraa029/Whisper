@@ -56,6 +56,7 @@ class NewUser {
       'bio': this.bio,
       'pronouns': this.pronouns,
       'webSite': this.webSite,
+      'id' : this.id,
     };
   }
 }

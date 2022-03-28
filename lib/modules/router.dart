@@ -14,6 +14,22 @@ class RouterClass {
     navKey.currentState.push(MaterialPageRoute(builder: (context) {
       return widget;
     }));
+
+  }
+  pushWithReplacementToSpecificScreenUsingWidget(Widget widget) {
+    BuildContext context = navKey.currentContext;
+    navKey.currentState.pushReplacement(MaterialPageRoute(builder: (context) {
+      return widget;
+    }));
+
+  }
+
+
+  routingToSpecificWidgetWithoutPop(Widget widget) {
+    BuildContext context = navKey.currentState.context;
+    navKey.currentState.push(MaterialPageRoute(builder: (context) {
+      return widget;
+    }));
   }
 
   popFunction() {

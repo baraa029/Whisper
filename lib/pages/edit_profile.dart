@@ -26,7 +26,7 @@ class EditProfile extends StatelessWidget {
                     TextButton(
                         onPressed: () {
                           RouterClass.routerClass
-                              .pushToSpecificScreenUsingWidget(UserPage());
+                              .popFunction();
                         },
                         child: Text(
                           'Cancel',
@@ -50,6 +50,7 @@ class EditProfile extends StatelessWidget {
                           User user = FirebaseAuth.instance.currentUser;
                           String userId = user.uid;
                           provider.editUser(userId);
+                          RouterClass.routerClass.popFunction();
                         },
                         child: Text(
                           'Done',

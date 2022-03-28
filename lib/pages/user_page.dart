@@ -6,6 +6,7 @@ import 'package:facebook_app/my_provider/my_provider.dart';
 import 'package:facebook_app/pages/edit_profile.dart';
 import 'package:facebook_app/pages/page_add_post.dart';
 import 'package:facebook_app/pages/page_add_story.dart';
+import 'package:facebook_app/ui/chats/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -52,11 +53,14 @@ class UserPage extends StatelessWidget {
                       Spacer(),
                       GestureDetector(
                         child: Image.asset(
-                          'assets/img/chat1.png',
-                          height: 70.h,
-                          width: 70.w,
+                          'assets/img/chat.png',
+                          height: 80.h,
+                          width: 80.w,
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          provider.getUsers();
+                          RouterClass.routerClass.pushToSpecificScreenUsingWidget(MainPage());
+                        },
                       ),
                     ],
                   ),

@@ -142,7 +142,7 @@ class Login extends StatelessWidget {
                             onPressed: () {
 
                               provide.login(emailController.text,passwordController.text);
-                              RouterClass.routerClass.pushToSpecificScreenUsingWidget(SplashScreen());
+                              RouterClass.routerClass.pushWithReplacementToSpecificScreenUsingWidget(SplashScreen());
                               loginVal();
 
                             },
@@ -157,7 +157,7 @@ class Login extends StatelessWidget {
                         child: Column(
                           children: [
                             TextButton(onPressed: (){
-                              RouterClass.routerClass.pushToSpecificScreenUsingWidget(Register());
+                              RouterClass.routerClass.pushWithReplacementToSpecificScreenUsingWidget(Register());
                             },
                                 child: Text('You don\'t have account',
                                 style: TextStyle(
